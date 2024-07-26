@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<button onclick="counter++;console.log(counter)">Increment counter</button>
+		<script>
+			let counter = 5;
+			window.onload = () => {
+				console.log("Страница со всеми ресурсами загружена полностью.");
+			};
+			document.addEventListener("DOMContentLoaded", () => {
+				console.log("Построение DOM-дерева завершено.");
+			});
+			const mouseEventListener = (event) => {
+				console.log(event.type, event.clientX, event.clientY);
+			};
+			document.addEventListener("click", mouseEventListener);
+			document.addEventListener("dblclick", { handleEvent: mouseEventListener });
+			document.addEventListener("contextmenu", mouseEventListener, true);
+			document.addEventListener("mouseenter", mouseEventListener, true);
+			document.addEventListener("mouseleave", mouseEventListener, true);
+			const throttle = (func, wait = 0) => {
+				let ticking = false;
+				return (...args) => {
+					if (!ticking) {
+						window.setTimeout(() => {
+							func(...args);
+							ticking = false;
+						}, wait);
+						ticking = true;
+					}
+				};
+			};
+			document.addEventListener("mousemove", throttle(mouseEventListener, 300), true);
+		</script>
+
+		<button>Кликни меня!</button>
+		<script>
+			const button = document.querySelector("button");
+			button.onclick = (event) => {
+				console.log(event.target === button);
+			};
+		</script>
+	</body>
+</html>
