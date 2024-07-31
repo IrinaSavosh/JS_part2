@@ -1,55 +1,52 @@
-// 1. При изменении значения в input с id="from", значение содержащееся в нем должно моментально отображаться в span. То есть при печати в input'е тег span также должен меняться.
+"use strict";
 
-const span = document.querySelector("span");
-const inPut = document.querySelector("#from");
+// 1. Необходимо вывести сообщение в консоль "все теги прогрузились", когда все теги будут созданы браузером.
 
-inPut.addEventListener("input", () => {
-	span.textContent = inPut.value;
+// Событие DOMContentLoaded запускается когда первоначальный HTML документ будет полностью загружен и разобран, без ожидания полной загрузки таблиц стилей, изображений и фреймов.
+
+const downloadTegs = () => console.log("все теги прогрузились");
+document.addEventListener("DOMContentLoaded", downloadTegs());
+
+// 2. Необходимо вывести сообщение в консоль "страница загрузилась", когда все ресурсы страницы будут загружены.
+
+// load – браузер загрузил HTML и внешние ресурсы (картинки, стили и т.д.).
+
+window.addEventListener("load", () => console.log("страница загрузилась"));
+
+// 3. При клике на какой-либо тег на странице в консоль должно выводиться сообщение наподобие:
+// - Класс "super_element" присутствует в элементе "div".
+// - сообщение должно определять присутствует или отсутствует класс "super_element"
+// - у элемента, а также выводить в нижнем регистре верный тег в данной строке, по
+// - которому был совершен клик.
+// - Необходимо использовать делегирование.
+
+document.addEventListener("click", (e) => {
+	const presence = e.target.classList.contains("super_element") ? "присутствует" : "отсутствует";
+	console.log(`
+	Класс "super_element" ${presence} в элементе 
+	"${e.target.tagName.toLowerCase()}".`);
 });
 
-// 2. При клике на кнопку с классом messageBtn необходимо элементу с классом message:
-// - добавить два класса: animate_animated и animate_fadeInLeftBig
-// - поставить данному элементу стиль visibility в значение 'visible'.
+// 4. Сделайте, чтобы при наведении на textarea в консоли появлялось сообщение: "Вы навели на textarea."
+const textArea = document.querySelector("textarea");
+textArea.addEventListener("mouseover", () => console.log("Вы навели на textarea."));
 
-const btn = document.querySelector(".messageBtn");
-const text = document.querySelector(".message");
-btn.addEventListener("click", () => {
-	text.style.visibility = "visible";
-	text.style.color = "red";
-	text.classList.add("animate__animated", "animate__fadeInLeftBig");
-});
+// 5. Необходимо повесить событие клика на тег ul. В обработчике события в консоль необходимо выводить текст, который записан внутри элемента кнопки, по которой был произведен клик. Если клик был не по кнопке, то ничего выводить не нужно. Необходимо использовать делегирование.
 
-// 3. Необходимо при отправке формы проверить, заполнены ли все поля в этой форме. Если какое-либо поле не заполнено, форма не должна отправляться, также должны быть подсвечены незаполненные поля (необходимо поставить класс error незаполненным полям). Как только пользователь начинает заполнять какое-либо поле, необходимо, при вводе в данное поле, произвести проверку:
-// - Если поле пустое, необходимо данное поле подсветить (поставить класс error данному полю).
-// - Если поле было чем-либо заполнено, подсветку (класс error) необходимо убрать.
+const ulUl = document.querySelector("ul");
 
-const formEl = document.querySelector("form");
-const formControlEls = formEl.querySelectorAll("input, select");
-const butt = document.querySelector("#fly");
-const p = document.createElement("p");
-butt.insertAdjacentElement("afterend", p);
-
-formEl.addEventListener("submit", (e) => {
-	formControlEls.forEach((formControlEl) => {
-		if (formControlEl.value === "") {
-			formControlEl.classList.add("error");
-			e.preventDefault();
-			p.textContent = "Необходимо заполнить поля, выделенные красным";
-			p.textContent = "Необходимо заполнить поля, выделенные красным";
-			formControlEl.style.border = "3px solid red";
-		} else {
-			formControlEl.style.border = "1px solid black";
-		}
-	});
-});
-formEl.addEventListener("input", (e) => {
-	if (!e.target.classList.contains("form-control")) {
-		return;
-	}
-	if (e.target.value === "") {
-		e.target.classList.add("error");
-	} else {
-		e.target.classList.remove("error");
-		p.textContent = "";
+ulUl.addEventListener("click", (event) => {
+	if (event.target.tagName === "BUTTON") {
+		console.log(event.target.textContent);
 	}
 });
+// 6. Вопрос: Почему в console.log пишется сначала текст из 5 задания и только потом выводится текст из 3 задания, если мы кликаем по кнопкам в ul? Ответ необходимо написать здесь же, под этим комментарием, своими словами.
+
+console.log("Сначала обрабатывается событие дочернего элемента, а после всплывает к родительскому и обрабатывает. Если я правильно отвечаю, то как можно сделать наоборот: чтобы сначала выводилось все по порядку, как идет по скрипту?");
+
+// 7. С помощью JS необходимо изменить цвет заднего фона каждого второго тега li.
+const elements = document.querySelectorAll("li:nth-child(2n)");
+elements.forEach((element) => {
+	element.style.backgroundColor = "red";
+});
+// forEach(element => element.style.backgroundColor = 'red');
