@@ -68,6 +68,7 @@ but.addEventListener("click", (e) => {
 		pass.style.border = "1px solid red";
 		pass.value = "";
 		pass.placeholder = "пароль неверный";
+		
 	}
 });
 
